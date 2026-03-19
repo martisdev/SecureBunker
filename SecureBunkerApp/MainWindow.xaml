@@ -1,0 +1,266 @@
+﻿<mah:MetroWindow x:Class="SecureBunker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:SecureBunker"
+        mc:Ignorable="d"
+        Title="Save secure information"
+        ShowIconOnTitleBar="True"
+        Height="600" 
+        Width="800" 
+        MinHeight="600"
+        MinWidth="800"
+        WindowStartupLocation="CenterScreen" 
+        Closing="MetroWindow_Closing">
+
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Click="LaunchOnGitHub_Click"  ToolTip="Secure Bunker on GitHub">
+                <iconPacks:PackIconModern Width="22"
+                                          Height="22"
+                                          Kind="SocialGithubOctocat" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands ShowLastSeparator="False">
+            <Button Click="LaunchSettings_Click"  ToolTip="Configure options" >
+                <iconPacks:PackIconModern Width="22"
+                          Height="22"
+                          Kind="Settings" />
+
+            </Button>
+
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout x:Name="settingsFlyout"
+                       Width="500"
+                       Header="Settings"                       
+                       Position="Right">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="4 0 4 10" Text="Configure the different types of connection to the source." />
+
+                    <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            
+                            <ComboBox Margin="4 2 4 4" 
+                                      Name="cmbSource"
+                                      SelectedItem="{Binding SelectedSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding ListOfSources}"
+                                      mah:TextBoxHelper.Watermark="Source" 
+                                      mah:TextBoxHelper.UseFloatingWatermark="True"/>
+
+                            <GroupBox Grid.Row="0"
+                                  Grid.Column="0"
+                                  Margin="4 2"
+                                  Header="Local">
+                                <AdornerDecorator>
+                                    <StackPanel>
+                                        <Label Margin="0 5 0 0" Content="No configuration required."/>
+                                    </StackPanel>
+                                </AdornerDecorator>
+                            </GroupBox>
+                            <GroupBox Grid.Row="0"
+                              Grid.Column="0"
+                              Margin="4 2"
+                              Header="FTP">
+                                <AdornerDecorator>
+                                    <StackPanel>
+                                        <TextBox Name="txtFtpHost" Margin="0 5 0 0"                                                  
+                                                 Text="{Binding FtpHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 mah:TextBoxHelper.Watermark="Host" 
+                                                 mah:TextBoxHelper.UseFloatingWatermark="True"/>
+                                        <TextBox Name="txtFtpPort" Margin="0 5 0 0" 
+                                                 Text="{Binding FtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 mah:TextBoxHelper.Watermark="Port" 
+                                                 mah:TextBoxHelper.UseFloatingWatermark="True"/>
+                                        <TextBox Name="txtFtpUser" Margin="0 5 0 0" 
+                                                 Text="{Binding FtpUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 mah:TextBoxHelper.Watermark="User Name" 
+                                                 mah:TextBoxHelper.UseFloatingWatermark="True"/>
+                                        <PasswordBox Name="txtFtpPassword" Margin="0 5 0 0"                                                      
+                                                     mah:TextBoxHelper.Watermark="user password" 
+                                                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                                                     Style="{StaticResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
+                                        <TextBox Name="txtFtpPathFile" Margin="0 5 0 0" 
+                                                 Text="{Binding FtpPathFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 mah:TextBoxHelper.Watermark="Path file" 
+                                                 mah:TextBoxHelper.UseFloatingWatermark="True"/>
+                                    </StackPanel>
+                                </AdornerDecorator>
+                            </GroupBox>
+                            <GroupBox Grid.Row="0"
+                                  Grid.Column="0"
+                                  Margin="4 2"
+                                  Header="Google Drive">
+                                <AdornerDecorator>
+                                    <StackPanel>
+                                        <TextBox Name="txtGooglePathFile" Margin="0 5 0 0" 
+                                                 Text="{Binding GooglePathFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+                                                 mah:TextBoxHelper.Watermark="File name" 
+                                                 mah:TextBoxHelper.UseFloatingWatermark="True"/>
+                                    </StackPanel>
+                                </AdornerDecorator>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <UniformGrid Grid.Row="2"
+                                Margin="20"
+                                Columns="1">
+                        <Button x:Name="btnConfSave" Margin="10"
+                               Content="Save"
+                                Click="btnConfSave_Click"
+                               Style="{DynamicResource MahApps.Styles.Button.Square}" />
+                    </UniformGrid>
+
+                </Grid>
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Name="lbNew" Visibility="Hidden" Content="NEW" HorizontalAlignment="Left" Height="35" Margin="47,27,0,0" VerticalAlignment="Top" Width="60" FontSize="20" ToolTip="New Item" FontWeight="Bold" Background="OrangeRed" RenderTransformOrigin="0.5,0.5"/>
+        <ComboBox Name="cmbList" 
+                  HorizontalAlignment="Left" 
+                  Height="42" 
+                  Margin="400,19,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="328"
+                  SelectionChanged="cmbList_SelectionChanged"
+                  mah:TextBoxHelper.ClearTextButton="True"
+                  mah:TextBoxHelper.UseFloatingWatermark="True"
+                  mah:TextBoxHelper.Watermark="Please select an item..."                  
+                  IsEditable="True"
+                  Style="{DynamicResource MahApps.Styles.ComboBox.Virtualized}"                  
+                  />
+        <TextBox Name="TxtName" Height="42" Margin="47,75,72,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="Txt_TextChanged"
+                mah:TextBoxHelper.UseFloatingWatermark="True"
+                mah:TextBoxHelper.Watermark="Enter a name for this item" RenderTransformOrigin="1,0.5"                 />
+        <TextBox Name="TxtDescrip" Height="42" Margin="47,126,72,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"
+                mah:TextBoxHelper.UseFloatingWatermark="True"
+                mah:TextBoxHelper.Watermark="Enter a short description" RenderTransformOrigin="1,0.5"
+                TextChanged="Txt_TextChanged"/>
+        <TextBox 
+            Name="TxtURL" 
+            Height="42" 
+            Margin="47,179,72,0" 
+            TextWrapping="Wrap" 
+            Text="" 
+            VerticalAlignment="Top"            
+            TextChanged="Txt_TextChanged"            
+            mah:TextBoxHelper.UseFloatingWatermark="True"
+            mah:TextBoxHelper.Watermark="Enter link for navigate to"                                    
+            mah:TextBoxHelper.ButtonCommand="{Binding LaunchURL_Click}"
+            mah:TextBoxHelper.ButtonsAlignment="Right">
+            <mah:TextBoxHelper.ButtonContent>
+                <iconPacks:PackIconModern Kind="GlobeWire" Width="16" Height="16" />
+            </mah:TextBoxHelper.ButtonContent>
+        </TextBox>
+        <TextBox Name="TxtUser" Height="42" Margin="47,239,72,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"
+                mah:TextBoxHelper.UseFloatingWatermark="True"
+                mah:TextBoxHelper.Watermark="Enter a credential user name" RenderTransformOrigin="1,0.5"
+                 TextChanged="Txt_TextChanged"/>
+
+        <PasswordBox Name="txtPsw" VerticalAlignment="Top" Height="40" Margin="47,294,72,0"                     
+                mah:TextBoxHelper.UseFloatingWatermark="True"
+                mah:TextBoxHelper.Watermark="Enter credencial password"        
+                Style="{StaticResource MahApps.Styles.PasswordBox.Button.Revealed}" RenderTransformOrigin="1,0.5"
+                PasswordChanged="txtPsw_PasswordChanged"/>
+
+        <RichTextBox Name="txtComment" Margin="47,10,72,114" RenderTransformOrigin="1,1"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.Watermark="Type some text to save" Grid.Row="1"
+                     TextChanged="Txt_TextChanged">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+        <mah:Tile Name="TileNew" 
+                Title="New" 
+                Click="TileNew_Click" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                Height="64" 
+                Margin="47,0,0,20"  
+                Width="150" 
+                Grid.Row="1"
+                Background="OrangeRed" TitleFontSize="20" VerticalTitleAlignment="Center">
+            <iconPacks:PackIconModern 
+                Width="41"
+                Height="40"
+                HorizontalAlignment="Right"
+                Kind="Add" Margin="75,0,0,0" />
+        </mah:Tile>
+
+        <mah:Tile Name="TileSave" 
+              Title="Save"  
+              Click="TileSave_Click" 
+              HorizontalAlignment="Left" 
+              VerticalAlignment="Bottom" 
+              Height="64" 
+              Margin="238,0,0,20" 
+              Grid.Row="1"  
+              Width="300"
+              Background="DeepSkyBlue" TitleFontSize="20" VerticalTitleAlignment="Center">
+            <iconPacks:PackIconModern 
+                Width="40"
+                Height="40"
+                Kind="Save" Margin="75,0,0,0" />
+        </mah:Tile>
+
+        <mah:Tile Name="TileDel" 
+                  Title="Delete" 
+                  Click="TileDel_Click" 
+                  HorizontalAlignment="Left" 
+                  VerticalAlignment="Bottom" 
+                  Height="64" 
+                  Margin="583,0,0,20" 
+                  Grid.Row="1"  
+                  Width="145"
+                  Background="Red" TitleFontSize="20" VerticalTitleAlignment="Center">
+            <iconPacks:PackIconModern 
+                Width="40"
+                Height="40"
+                HorizontalAlignment="Left"
+                Kind="Delete" Margin="75,0,0,0" />
+        </mah:Tile>
+
+        <StatusBar Name="StatusBarBottom" Grid.Row="2">
+            <StatusBarItem >Version 9.9</StatusBarItem>
+            <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
+            <StatusBarItem>Save your secrets in a safe place</StatusBarItem>
+            <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
+            <mah:MetroProgressBar  x:Name="ProgressBar" Width="400"
+                      Margin="10"
+                      IsIndeterminate="True" 
+                      Maximum="100"
+                      Minimum="0"
+                      Visibility="Hidden"
+                      Value="10"  />
+        </StatusBar>
+
+
+    </Grid>
+</mah:MetroWindow>
