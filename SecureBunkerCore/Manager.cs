@@ -63,8 +63,8 @@ namespace SecureBunkerCore
         {
 
             string AppName = Assembly.GetEntryAssembly().GetName().Name;
-            Configurations.LoadConfigurationFile();            
-            switch (Config.sourceType)
+            sourceType = Configurations.LoadConfigurationFile();            
+            switch (sourceType)
             {
                 case SourceType.Local:
                     sourceAccess = new SourceAccess(new LocalAccess(AppName));
@@ -80,8 +80,7 @@ namespace SecureBunkerCore
 
         public static bool TryLogin()
         {
-            bool result = false;
-            
+            bool result = false;            
             switch (sourceType)
             {
                 case SourceType.Local:

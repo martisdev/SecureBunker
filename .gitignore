@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+SecureBunkerApp/Installer/dependency_app/windowsdesktop-runtime-9.0.14-win-x64.exe
+SecureBunkerApp/Installer/Output/setup.exe
